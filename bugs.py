@@ -8,6 +8,8 @@ html = req.text
 
 soup = BeautifulSoup(html,'html.parser')
 
-for i in soup.select('.title'):
-    print(i.text)
+top_list = soup.select('#CHARTrealtime > table > tbody > tr')
 
+for i in top_list:
+    title = i.find('th').find('p').find('a')
+    print(title.text)
