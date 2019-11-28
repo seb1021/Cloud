@@ -1,4 +1,4 @@
-import requests
+mport requests
 import urllib.parse 
 from bs4 import BeautifulSoup
 RANK=100
@@ -16,7 +16,4 @@ for t in titles:
 for s in songs:
     song.append(s.find('span',{'class':'checkEllipsis'}).text)
 for i in range(RANK):
-
     print('title:%s singer:%s'%(title[i].strip(),song[i].strip()))
-    
-
