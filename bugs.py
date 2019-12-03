@@ -40,25 +40,37 @@ for z in soup.find_all('p',class_='artist'):
     singer2[m] = singer.text #배열에 가수 이름 저장
     m = m+1
 
-for i in range(0,100):
-    print("%d위 : %s - %s" %(i+1,title[i],singer2[i]))
+#for i in range(0,100):
+#    print("%d위 : %s - %s" %(i+1,title[i],singer2[i]))
 
-#가사 크롤링
+#가사 크롤링(코딩할 땐 웬만하면 주석처리.. 오래걸려요)
 #for i in soup.find_all('a', class_='trackInfo'):
- #   lyrics_url = i.get('href')
-  #  req2 = requests.get(lyrics_url) #가사 url 요청
-   # html2 = req2.text
-    #soup_lyrics = BeautifulSoup(html2,'html.parser')
-   # j = soup_lyrics.find('div',class_='lyricsContainer')
-   # lyrics = j.find('xmp')
+#    lyrics_url = i.get('href')
+#    req2 = requests.get(lyrics_url) #가사 url 요청
+#    html2 = req2.text
+#    soup_lyrics = BeautifulSoup(html2,'html.parser')
+#    j = soup_lyrics.find('div',class_='lyricsContainer')
+#    lyrics = j.find('xmp')
     #print(lyrics.text)
 
 #앨범 사진 크롤링
 for i in soup.find_all('a',class_='thumbnail'):
     img_url = i.find('img').get('src')
     img_name = i.find('img').get('alt')
-    print(img_url)
-    print(img_name)
+#    print(img_url)
+#    print(img_name)
     
     urllib.request.urlretrieve(img_url,img_name+'.jpg')
     #urllib.requests.urlretrieve(img_url,i.find('img').get('alt')+'.jpg')
+
+#수록곡 크롤링
+for i in soup.find_all('a', class_='album'):
+    list_url = i.get('href')
+    req3 = requests.get(list_url)   #수록곡 url 요청
+    html3 = req3.text
+    soup_list = BeautifulSoup(html3,'html.parser') # 수록곡 나오는 페이지로 이동
+    # 각 앨범에 대해 수록곡들 크롤링
+    for j in soup_list.find_all('p',class_='title'):
+            list_song = j.find('a')
+            if list_song:
+                print(list_song.text)
