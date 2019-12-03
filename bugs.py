@@ -1,21 +1,19 @@
 #!/usr/bin/env python
 from bs4 import BeautifulSoup
 import requests
-
+import urllib.request
 req = requests.get('https://music.bugs.co.kr/chart/track/realtime/total?wl_ref=M_contents_03_01')
-
 
 html = req.text
 
 soup = BeautifulSoup(html,'html.parser')
 
-top_list = soup.select('#CHARTrealtime > table > tbody > tr')
-top_list2 = soup.select('#CHARTrealtime > table > tbody > tr')
+#top_list = soup.select('#CHARTrealtime > table > tbody > tr')
+#top_list2 = soup.select('#CHARTrealtime > table > tbody > tr')
 f_song = open("bugs_song.txt","w") #노래 차트 텍스트 파일
 f_singer = open("bugs_singer.txt","w") #가수 차트 텍스트 파일
 
 title = [None]*100
-singer = [None]*100
 n = 0
 
 for i in soup.find_all('p',class_='title'):
@@ -44,3 +42,23 @@ for z in soup.find_all('p',class_='artist'):
 
 for i in range(0,100):
     print("%d위 : %s - %s" %(i+1,title[i],singer2[i]))
+
+#가사 크롤링
+#for i in soup.find_all('a', class_='trackInfo'):
+ #   lyrics_url = i.get('href')
+  #  req2 = requests.get(lyrics_url) #가사 url 요청
+   # html2 = req2.text
+    #soup_lyrics = BeautifulSoup(html2,'html.parser')
+   # j = soup_lyrics.find('div',class_='lyricsContainer')
+   # lyrics = j.find('xmp')
+    #print(lyrics.text)
+
+#앨범 사진 크롤링
+for i in soup.find_all('a',class_='thumbnail'):
+    img_url = i.find('img').get('src')
+    img_name = i.find('img').get('alt')
+    print(img_url)
+    print(img_name)
+    
+    urllib.request.urlretrieve(img_url,img_name+'jpg')
+    #urllib.requests.urlretrieve(img_url,i.find('img').get('alt')+'.jpg')
