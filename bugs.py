@@ -60,5 +60,5 @@ for i in soup.find_all('a',class_='thumbnail'):
     print(img_url)
     print(img_name)
     
-    urllib.request.urlretrieve(img_url,img_name+'jpg')
+    urllib.request.urlretrieve(img_url,img_name+'.jpg')
     #urllib.requests.urlretrieve(img_url,i.find('img').get('alt')+'.jpg')
